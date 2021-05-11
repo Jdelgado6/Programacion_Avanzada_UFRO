@@ -12,8 +12,6 @@ public class Conexion {
 
    
     public Conexion() {
-        
-        
         /**
          * Permite hacer la conexion a la base de datos del proyecto, ingresndo las credenciales de mysql
          * @param url obtiene la url de la base de datos de nuestro proyecto
