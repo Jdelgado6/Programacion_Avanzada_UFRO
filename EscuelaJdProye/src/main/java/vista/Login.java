@@ -211,7 +211,6 @@ public class Login extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     Conexion con = new Conexion();
-
     Connection cn = con.getConnection();
 
 }

@@ -12,7 +12,6 @@ import javax.swing.JTable;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author jd_6
@@ -24,11 +23,14 @@ public class GestionCursos extends javax.swing.JFrame {
 
     public GestionCursos() {
         initComponents();
-        
+        ejecutarConsultaCurso();
         cerrar();
-
         this.setLocationRelativeTo(null);
 
+    }
+    
+    public void ejecutarConsultaCurso() {
+        
         try {
 
             PreparedStatement ps = cn.prepareStatement("SELECT * FROM Cursos");
@@ -73,6 +75,7 @@ public class GestionCursos extends javax.swing.JFrame {
 
         } catch (Exception e) {
         }
+        
     }
 
     public void confirmarSalida() {

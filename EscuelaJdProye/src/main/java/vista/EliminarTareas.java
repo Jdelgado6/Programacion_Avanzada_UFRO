@@ -71,7 +71,6 @@ public class EliminarTareas extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Eliminar todas las tareas");
 
-        btnEliminarTodo.setIcon(new javax.swing.ImageIcon("C:\\Users\\jd_6\\Documents\\NetBeansProjects\\ProyectoEscuelaJD\\src\\main\\resources\\Imagenes\\recyclebinfilled_recycling_full_garbage_1993.png")); // NOI18N
         btnEliminarTodo.setText("Eliminar todas las tareas");
         btnEliminarTodo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEliminarTodo.addActionListener(new java.awt.event.ActionListener() {
@@ -80,7 +79,6 @@ public class EliminarTareas extends javax.swing.JFrame {
             }
         });
 
-        BtnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\jd_6\\Documents\\NetBeansProjects\\ProyectoEscuelaJD\\src\\main\\resources\\Imagenes\\arrow_left_icon_183068 (1).png")); // NOI18N
         BtnVolver.setText("Volver");
         BtnVolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BtnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -102,7 +100,7 @@ public class EliminarTareas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnVolver)
-                .addGap(293, 293, 293))
+                .addGap(326, 326, 326))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,9 +109,9 @@ public class EliminarTareas extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(62, 62, 62)
                 .addComponent(btnEliminarTodo)
-                .addGap(31, 31, 31)
+                .addGap(34, 34, 34)
                 .addComponent(BtnVolver)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         pack();

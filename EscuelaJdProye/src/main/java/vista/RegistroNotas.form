@@ -131,9 +131,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnRegistrar">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\jd_6\Documents\NetBeansProjects\ProyectoEscuelaJD\src\main\resources\Imagenes\records_notes_journal_edited_9479.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Registrar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Cursor de Mano"/>
@@ -145,9 +142,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="BtnVolver">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\jd_6\Documents\NetBeansProjects\ProyectoEscuelaJD\src\main\resources\Imagenes\arrow_left_icon_183068 (1).png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Volver"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Cursor de Mano"/>

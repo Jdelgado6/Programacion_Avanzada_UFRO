@@ -21,15 +21,35 @@ import javax.swing.table.DefaultTableModel;
 public class GestionAlumnos extends javax.swing.JFrame {
 
     public static int idAlumno = 0;
-
     DefaultTableModel modelo = new DefaultTableModel();
 
     public GestionAlumnos() {
         initComponents();
-        
         cerrar();
-
+        ejectuarConsultaAlumnos();
         this.setLocationRelativeTo(null);
+        mouseClicked();
+    }
+
+    public void mouseClicked() {
+        tablaGestionAlu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                int filaPoint = tablaGestionAlu.rowAtPoint(e.getPoint());
+                int columnaPoint = 0;
+
+                if (filaPoint > -1) {
+                    idAlumno = (int) modelo.getValueAt(filaPoint, columnaPoint);
+                    InfoAlumnos infoAlumnos = new InfoAlumnos();
+                    infoAlumnos.setVisible(true);
+                    dispose();
+                }
+            }
+        });
+    }
+
+    public void ejectuarConsultaAlumnos() {
 
         try {
 
@@ -59,46 +79,23 @@ public class GestionAlumnos extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.err.println("Error en el llenado de tabla");
         }
-
-        tablaGestionAlu.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                int filaPoint = tablaGestionAlu.rowAtPoint(e.getPoint());
-                int columnaPoint = 0;
-
-                if (filaPoint > -1) {
-                    idAlumno = (int) modelo.getValueAt(filaPoint, columnaPoint);
-                    InfoAlumnos infoAlumnos = new InfoAlumnos();
-                    infoAlumnos.setVisible(true);
-                    dispose();
-
-                }
-
-            }
-        });
     }
 
     public void cerrar() {
-
         try {
-
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
             addWindowListener(new WindowAdapter() {
-
                 public void windowClosing(WindowEvent e) {
-
                     confirmarSalida();
                 }
             });
-
         } catch (Exception e) {
+            System.out.println("No hemos podido cerrar la aplicación... intente nuevamente!");
         }
+
     }
 
     public void confirmarSalida() {
-
         int valor = JOptionPane.showConfirmDialog(this, "¿Desea cerrar la aplicación ?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (valor == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Hasta pronto", "", JOptionPane.INFORMATION_MESSAGE);

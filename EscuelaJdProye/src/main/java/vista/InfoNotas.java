@@ -1,6 +1,5 @@
 package vista;
 
-
 import conexion.Conexion;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,107 +19,106 @@ import javax.swing.table.DefaultTableModel;
  * @author jd_6
  */
 public class InfoNotas extends javax.swing.JFrame {
-    
+
     int idAlumno = 0;
     int idNota = 0;
-    
     String nombreAlumno = "";
 
     public InfoNotas() {
         initComponents();
-        
+        ejecutarConsultaAlumno();
+        mostrarDatosAlumno();
+        obtenerNotasAlumno();
         cerrar();
-        
         this.setLocationRelativeTo(null);
-        
         txtNombreAlu.setEditable(false);
-        
-        idNota = InfoAlumnos.idNota;
-        
+
+        txtNombreAlu.setText(nombreAlumno);
+
+    }
+
+    public void ejecutarConsultaAlumno() {
         idAlumno = GestionAlumnos.idAlumno;
-        
         try {
-            
-            PreparedStatement ps = cn.prepareStatement("SELECT nombre FROM alumnos WHERE id_alumno= '"+ idAlumno +"'");
-            
+
+            PreparedStatement ps = cn.prepareStatement("SELECT nombre FROM alumnos WHERE id_alumno= '" + idAlumno + "'");
+
             ResultSet rs = ps.executeQuery();
-            
-            if(rs.next()){
-                
+
+            if (rs.next()) {
+
                 nombreAlumno = rs.getString("nombre");
             }
-         
+
         } catch (SQLException e) {
-            
+
             System.err.println(e);
             JOptionPane.showMessageDialog(null, "Error al consultar nombre alumno");
         }
-        
+
+    }
+
+    public void obtenerNotasAlumno() {
+        idNota = InfoAlumnos.idNota;
         try {
-            
-            PreparedStatement ps = cn.prepareStatement("SELECT tarea,calificacion FROM notas WHERE id_nota= '"+idNota +"'");
-            
+
+            PreparedStatement ps = cn.prepareStatement("SELECT tarea,calificacion FROM notas WHERE id_nota= '" + idNota + "'");
+
             ResultSet rs = ps.executeQuery();
-            
-            if(rs.next()){
-                
+
+            if (rs.next()) {
+
                 txtTareaAlu.setText(rs.getString("tarea"));
                 txtNotaALu.setText(rs.getString("calificacion"));
-                
-                
-                        ;
-                
+
             }
-            
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al consultar la información de notas");
         }
-        
-        txtNombreAlu.setText(nombreAlumno);
-        
-        
+    }
+
+    public void mostrarDatosAlumno() {
+        idAlumno = GestionAlumnos.idAlumno;
+        idNota = InfoAlumnos.idNota;
         DefaultTableModel modelo = new DefaultTableModel();
-        
+
         modelo.addColumn("ID nota");
         modelo.addColumn("Tarea");
         modelo.addColumn("Nota");
-        
+
         tablaInfoNotas.setModel(modelo);
-        
-        String sql = "SELECT id_nota,tarea,calificacion FROM notas WHERE id_alumno_nota= '"+idAlumno +"' ";
-        
+
+        String sql = "SELECT id_nota,tarea,calificacion FROM notas WHERE id_alumno_nota= '" + idAlumno + "' ";
+
         String datos[] = new String[3];
-        
+
         Statement st;
-        
+
         try {
-            
+
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            
-            while(rs.next()){
-                
+
+            while (rs.next()) {
+
                 datos[0] = rs.getString("id_nota");
                 datos[1] = rs.getString("tarea");
                 datos[2] = rs.getString("calificacion");
-                
+
                 modelo.addRow(datos);
-                
+
             }
-            
+
             tablaInfoNotas.setModel(modelo);
-        
-        
-            
+
         } catch (SQLException e) {
-            
+
             JOptionPane.showMessageDialog(null, "Error al llenar la tabla de notas");
         }
-                
-        
     }
-    
-        public void cerrar() {
+
+    public void cerrar() {
 
         try {
 
@@ -287,52 +285,50 @@ public class InfoNotas extends javax.swing.JFrame {
 
     private void btaActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btaActualizarActionPerformed
         try {
-            
-            if(txtTareaAlu.getText().isEmpty()){
-                
+
+            if (txtTareaAlu.getText().isEmpty()) {
+
                 JOptionPane.showMessageDialog(null, "Campo tarea no puede estar vacio");
-            }
-            else if(txtNotaALu.getText().isEmpty()){
-                
+            } else if (txtNotaALu.getText().isEmpty()) {
+
                 JOptionPane.showMessageDialog(null, "Campo nota no puede estar vacio");
-            }else{
-                PreparedStatement ps = cn.prepareStatement("UPDATE notas SET tarea='"+txtTareaAlu.getText()+"', calificacion= '"+txtNotaALu.getText() +"' WHERE id_nota= '"+idNota +"'");
+            } else {
+                PreparedStatement ps = cn.prepareStatement("UPDATE notas SET tarea='" + txtTareaAlu.getText() + "', calificacion= '" + txtNotaALu.getText() + "' WHERE id_nota= '" + idNota + "'");
                 int respuesta = ps.executeUpdate();
-                
-                if(respuesta>0){
-                    
+
+                if (respuesta > 0) {
+
                     JOptionPane.showMessageDialog(null, "Datos actualizados ");
                 }
-            }       
+            }
         } catch (SQLException e) {
-            
+
             JOptionPane.showMessageDialog(null, "Error al actualizar datos de notas ");
         }
     }//GEN-LAST:event_btaActualizarActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         try {
-            
-            PreparedStatement ps = cn.prepareStatement("DELETE FROM notas WHERE id_nota='"+idNota+"'");
+
+            PreparedStatement ps = cn.prepareStatement("DELETE FROM notas WHERE id_nota='" + idNota + "'");
             int respuesta = ps.executeUpdate();
-            
-            if(respuesta>0){
+
+            if (respuesta > 0) {
                 JOptionPane.showMessageDialog(null, "Datos borrados");
-            
-        }
-            else{
+
+            } else {
                 JOptionPane.showMessageDialog(null, "No ha seleccionado fila ");
-                
+
             }
         } catch (SQLException e) {
-            
+
         }
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         InfoAlumnos infoAlumnos = new InfoAlumnos();
-        
+
         infoAlumnos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed

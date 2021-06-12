@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
 import conexion.Conexion;
@@ -28,20 +23,19 @@ public class GestionNotas extends javax.swing.JFrame {
         cerrar();
         mostrarTabla("");
     }
-    
-    void mostrarTabla(String valor){
-        
-                
+
+    void mostrarTabla(String valor) {
+
         DefaultTableModel modelo = new DefaultTableModel();
-        
+
         modelo.addColumn("Nombre ");
         modelo.addColumn("Apellido");
         modelo.addColumn("Materia");
         modelo.addColumn("Promedio");
-        
+
         TablaGestorNotas.setModel(modelo);
-        
-        String sql ="SELECT alumnos.nombre AS nombre,"
+
+        String sql = "SELECT alumnos.nombre AS nombre,"
                 + "alumnos.apellido AS apellido,"
                 + "alumnos.id_curso_asignado AS curso,"
                 + " AVG(notas.calificacion) AS totalcalificacion"
@@ -49,38 +43,35 @@ public class GestionNotas extends javax.swing.JFrame {
                 + " INNER JOIN notas"
                 + " ON alumnos.id_alumno=notas.id_alumno_nota"
                 + " GROUP BY alumnos.nombre";
-        
+
         String datos[] = new String[4];
-        
         Statement st;
-        
+
         try {
             st = cn.createStatement();
-            
+
             ResultSet rs = st.executeQuery(sql);
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 datos[0] = rs.getString(1);
                 datos[1] = rs.getString(2);
                 datos[2] = rs.getString(3);
                 datos[3] = rs.getString(4);
-                
+
                 modelo.addRow(datos);
-                
+
             }
-            
+
             TablaGestorNotas.setModel(modelo);
-            
+
         } catch (SQLException e) {
-            
+
             System.err.println(e);
             JOptionPane.showMessageDialog(null, "Error en el inner join");
-            
+
         }
-                 
-        
     }
-    
+
     public void cerrar() {
 
         try {
@@ -108,7 +99,6 @@ public class GestionNotas extends javax.swing.JFrame {
         }
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

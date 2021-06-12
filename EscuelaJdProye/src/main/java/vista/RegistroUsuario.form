@@ -119,9 +119,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="BtnRegistrar">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\jd_6\Documents\NetBeansProjects\ProyectoEscuelaJD\src\main\resources\Imagenes\business_applicatio.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Registrar"/>
       </Properties>
       <Events>
@@ -151,9 +148,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnVolver">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\jd_6\Documents\NetBeansProjects\ProyectoEscuelaJD\src\main\resources\Imagenes\arrow_left_icon_183068 (1).png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Volver"/>
       </Properties>
       <Events>

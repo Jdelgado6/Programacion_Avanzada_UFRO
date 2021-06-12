@@ -9,7 +9,6 @@ import java.sql.*;
 public class Conexion {
 
     Connection con;
-
    
     public Conexion() {
         /**

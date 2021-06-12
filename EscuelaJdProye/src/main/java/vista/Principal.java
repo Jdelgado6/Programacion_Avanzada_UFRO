@@ -1,6 +1,5 @@
 package vista;
 
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
@@ -11,9 +10,6 @@ import javax.swing.JOptionPane;
  */
 public class Principal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Principal
-     */
     public Principal() {
 
         initComponents();
@@ -192,7 +188,7 @@ public class Principal extends javax.swing.JFrame {
         GestionCursos gestionCursos = new GestionCursos();
         gestionCursos.setVisible(true);
         this.dispose();
-        
+
     }//GEN-LAST:event_BtnGestorCursosActionPerformed
 
     private void BtnAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAlumnosActionPerformed

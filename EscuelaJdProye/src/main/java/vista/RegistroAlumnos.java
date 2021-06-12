@@ -33,13 +33,17 @@ public class RegistroAlumnos extends javax.swing.JFrame {
         mostrarTabla("");
         cerrar();
         cargarComboCurso(cmbMateria);
+        contarCantidadAlumnos();
+
+    }
+    
+    void contarCantidadAlumnos() {
 
         for (int i = 0; i <= tablaRegistroAlu.getRowCount(); i++) {
 
             TxtCantidad.setText(" " + i);
 
         }
-
     }
 
     void limpiar() {

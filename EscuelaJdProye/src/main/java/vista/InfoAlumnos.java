@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import static vista.GestionAlumnos.idAlumno;
@@ -24,54 +25,53 @@ public class InfoAlumnos extends javax.swing.JFrame {
 
     DefaultTableModel modelo = new DefaultTableModel();
 
-    int idAlumno = 0;
-
+    private double nota = 0;
     public static int idNota = 0;
 
     public InfoAlumnos() {
+        int idAlumno = GestionAlumnos.idAlumno;
         initComponents();
-        
+        mostrarInfoAlumno();
+        ejecutarInfoAlumno(idAlumno);
         cerrar();
-
+        click();
         this.setLocationRelativeTo(null);
-
         TxtNombreAlu.setEditable(false);
         TxtApellidoAlu.setEditable(false);
         txtMatriculaAlu.setEditable(false);
         lblAprobado.setEditable(false);
         txtNota.setEditable(false);
 
-        idAlumno = GestionAlumnos.idAlumno;
+    }
 
-        try {
+    public void click() {
+        tablaNotas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
-            Connection cn = con.getConnection();
+                int filaPoint = tablaNotas.rowAtPoint(e.getPoint());
+                int columnaPoint = 0;
 
-            PreparedStatement ps = cn.prepareStatement("SELECT * FROM alumnos WHERE id_alumno='" + idAlumno + "'");
+                if (filaPoint > -1) {
+                    idNota = (int) modelo.getValueAt(filaPoint, columnaPoint);
+                    InfoNotas infoNotas = new InfoNotas();
+                    infoNotas.setVisible(true);
+                    dispose();
 
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                
-                setTitle("Información del alumno: " + rs.getString("nombre"));
-                
-                lblInfoAlu.setText("Información del alumno: " + rs.getString("nombre"));
-
-                TxtNombreAlu.setText(rs.getString("nombre"));
-                TxtApellidoAlu.setText(rs.getString("apellido"));
-                txtMatriculaAlu.setText(rs.getString("matricula"));
+                }
 
             }
-            
-            //cn.close();
 
-        } catch (SQLException e) {
-            System.err.println(e);
-            JOptionPane.showMessageDialog(null, "Error al cargar alumnos... contacte al administador");
-        }
+        });
+
+    }
+
+    public void ejecutarInfoAlumno(int id) {
+
+        idAlumno = id;
 
         try {
-            
+
             PreparedStatement pst = cn.prepareStatement("SELECT id_nota,tarea,calificacion FROM notas WHERE id_alumno_nota= '" + idAlumno + "'");
 
             ResultSet rs = pst.executeQuery();
@@ -92,57 +92,84 @@ public class InfoAlumnos extends javax.swing.JFrame {
                     fila[i] = rs.getObject(i + 1);
 
                 }
-
                 modelo.addRow(fila);
-
-                double filax = 0;
-                double total = 0;
-                double promedio = 0;
-
-                for (int i = 0; i < tablaNotas.getRowCount(); i++) {
-
-                    filax = Double.parseDouble(tablaNotas.getValueAt(i, 2).toString());
-                    total += filax;
-                    promedio = total / tablaNotas.getRowCount();
-
-                    txtNota.setText("" + promedio);
-
-                }
-
-                double notax = Double.parseDouble(txtNota.getText());
-
-                if (notax >= 4.0) {
-                    lblAprobado.setText(String.valueOf("Aprobado"));
-                    txtNota.setBackground(Color.green);
-
-                } else {
-                    lblAprobado.setText(String.valueOf("Reprobado"));
-                    txtNota.setBackground(Color.red);
-                }
-
+                
+                calcularPromedio();
+                estadoNota();
             }
 
         } catch (Exception e) {
             System.err.println("Error en el llenado de la tabla notas");
         }
 
-        tablaNotas.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
+    }
 
-                int filaPoint = tablaNotas.rowAtPoint(e.getPoint());
-                int columnaPoint = 0;
+    public void mostrarInfoAlumno() {
 
-                if (filaPoint > -1) {
-                    idNota = (int) modelo.getValueAt(filaPoint, columnaPoint);
-                    InfoNotas infoNotas = new InfoNotas();
-                    infoNotas.setVisible(true);
-                    dispose();
+        idAlumno = GestionAlumnos.idAlumno;
+        try {
 
-                }
+            PreparedStatement ps = cn.prepareStatement("SELECT * FROM alumnos WHERE id_alumno='" + idAlumno + "'");
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                setTitle("Información del alumno: " + rs.getString("nombre"));
+
+                lblInfoAlu.setText("Información del alumno: " + rs.getString("nombre"));
+
+                TxtNombreAlu.setText(rs.getString("nombre"));
+                TxtApellidoAlu.setText(rs.getString("apellido"));
+                txtMatriculaAlu.setText(rs.getString("matricula"));
 
             }
-        });
+        } catch (SQLException e) {
+            System.err.println(e);
+            JOptionPane.showMessageDialog(null, "Error al cargar alumnos... contacte al administador");
+        }
+
+    }
+
+    public double calcularPromedio() {
+
+        double total = 0;
+        double promedio = 0;
+
+        for (int i = 0; i < tablaNotas.getRowCount(); i++) {
+
+            nota = Double.parseDouble(tablaNotas.getValueAt(i, 2).toString());
+            total += nota;
+            promedio = total / tablaNotas.getRowCount();
+            txtNota.setText("" + promedio);
+
+        }
+
+        return promedio;
+
+    }
+
+    public void estadoNota() {
+
+        double notax = Double.parseDouble(txtNota.getText());
+
+        if (notax >= 4.0) {
+            lblAprobado.setText(String.valueOf("Aprobado"));
+            txtNota.setBackground(Color.green);
+
+        } else {
+            lblAprobado.setText(String.valueOf("Reprobado"));
+            txtNota.setBackground(Color.red);
+        }
+
+    }
+
+    public JTextField getLblAprobado() {
+        return lblAprobado;
+    }
+
+    public void setNota(double nota) {
+        this.nota = nota;
     }
 
     public void cerrar() {
@@ -340,7 +367,7 @@ public class InfoAlumnos extends javax.swing.JFrame {
         RegistroNotas registroNotas = new RegistroNotas();
         registroNotas.setVisible(true);
         this.dispose();
-        
+
     }//GEN-LAST:event_BtnRegistrarNotaActionPerformed
 
     /**
@@ -398,4 +425,5 @@ public class InfoAlumnos extends javax.swing.JFrame {
 
     Conexion con = new Conexion();
     Connection cn = con.getConnection();
+
 }

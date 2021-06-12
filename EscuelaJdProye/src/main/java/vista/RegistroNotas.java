@@ -19,20 +19,24 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 public class RegistroNotas extends javax.swing.JFrame {
 
     int idAlumno = 0;
-
     String nombreAlu = "";
     String nombreCurso = "";
 
     public RegistroNotas() {
         initComponents();
-
+        ejecutarConsultaRegistroNotas();
         this.setLocationRelativeTo(null);
-
-        txtAlu.setEditable(false);
-        cmbCurso.setEditable(false);
         cerrar();
         cargarComboCurso(cmbCurso);
+        txtAlu.setEditable(false);
+        cmbCurso.setEditable(false);
+        txtAlu.setText(nombreAlu);
+        cmbCurso.setSelectedItem(cmbCurso);
 
+    }
+
+    public void ejecutarConsultaRegistroNotas() {
+        
         idAlumno = GestionAlumnos.idAlumno;
 
         try {
@@ -50,15 +54,13 @@ public class RegistroNotas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al consultar nombre del alumno");
         }
 
-        txtAlu.setText(nombreAlu);
-
         try {
             PreparedStatement ps = cn.prepareStatement("SELECT id_curso_asignado FROM alumnos WHERE id_alumno='" + idAlumno + "'");
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                nombreAlu = rs.getString("id_curso_asignado");
+                nombreCurso = rs.getString("id_curso_asignado");
 
             }
 
@@ -67,7 +69,6 @@ public class RegistroNotas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al consultar curso en alumno");
         }
 
-        cmbCurso.setSelectedItem(cmbCurso);
     }
 
     public void cargarComboCurso(JComboBox comboDelCurso) {
@@ -240,39 +241,37 @@ public class RegistroNotas extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(null, "Campo tarea no puede estar vacio");
 
-            }
-
-            else if (txtNota.getText().isEmpty()) {
+            } else if (txtNota.getText().isEmpty()) {
 
                 JOptionPane.showMessageDialog(null, "Campo nota no puede estar vacio");
 
-            }else{
-                
+            } else {
+
                 PreparedStatement ps = cn.prepareStatement(" INSERT INTO notas(id_alumno_nota,id_curso_nota,tarea,calificacion) VALUES (?,?,?,?)");
-                
+
                 ps.setInt(1, idAlumno);
                 ps.setString(2, curso);
                 ps.setString(3, txtTarea.getText());
                 ps.setString(4, txtNota.getText());
-                
+
                 ps.executeUpdate();
-                
+
                 JOptionPane.showMessageDialog(null, "Datos guardados");
             }
 
         } catch (SQLException e) {
             System.err.println(e);
             JOptionPane.showMessageDialog(null, "Error al guardar datos de notas");
-            
+
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void BtnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVolverActionPerformed
-        
+
         InfoAlumnos infoAlumnos = new InfoAlumnos();
         infoAlumnos.setVisible(true);
         this.dispose();
-        
+
     }//GEN-LAST:event_BtnVolverActionPerformed
 
     /**
